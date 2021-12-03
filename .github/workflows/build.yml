@@ -48,7 +48,7 @@ jobs:
           file: ./bamboo/${{ matrix.name }}/Dockerfile
           platforms: ${{ matrix.platforms }}
           push: true
-          tags: ghcr.io/Hialus/artemis-bamboo:latest-${{ matrix.name }},ghcr.io/Hialus/artemis-bamboo:${{ matrix.version }}-${{ matrix.name }}
+          tags: ghcr.io/hialus/artemis-bamboo:latest-${{ matrix.name }},ghcr.io/hialus/artemis-bamboo:${{ matrix.version }}-${{ matrix.name }}
           labels: "runnumber=${GITHUB_RUN_ID}"
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
