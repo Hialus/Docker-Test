@@ -17,6 +17,8 @@ jobs:
             b: 2
     outputs:
       matrix: ${{ toJSON(steps.matrix.outputs.*) }}
+      A: ${{ steps.matrix.outputs.A || '' }}
+      B: ${{ steps.matrix.outputs.B || '' }}
     steps:
       - id: matrix
         env:
@@ -34,13 +36,14 @@ jobs:
     steps:
       - run: |
           echo "${{ needs.setup.outputs.matrix }}"
+          echo "${{ needs.setup.outputs.* }}"
 
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        include: ${{fromJSON(needs.setup.outputs.matrix)}}
+        include: ${{needs.setup.outputs.*}}
     steps:
       - run: |
           echo "${{ matrix.name }} & ${{ matrix.b }}"
