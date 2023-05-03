@@ -19,8 +19,10 @@ jobs:
       matrix: ${{ toJSON(steps.output.outputs.*) }}
     steps:
       - id: matrix
+        env:
+          MATRIX_JSON: ${{ toJSON(matrix) }}
         run: |
-          echo '${{ matrix.name }}=$(echo \'${{ toJSON(matrix) }}\' | tr -d '\n')' >> $GITHUB_OUTPUT
+          echo '${{ matrix.name }}=$MATRIX_JSON' >> $GITHUB_OUTPUT
 #         echo '${{ matrix.name }}=\'${{ toJSON(matrix) }}\'' >> $GITHUB_OUTPUT
 #         echo '::set-output name=value::[{"name":"A","b":"1"},{"name":"B","b":"2"}]'
           
