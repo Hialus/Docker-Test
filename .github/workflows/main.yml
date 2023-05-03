@@ -13,8 +13,13 @@ jobs:
         include:
           - name: "A"
             b: 1
+            c: true
           - name: "B"
             b: 2
+            c: true
+          - name: "C"
+            b: 3
+            c: false
     outputs:
       matrix: ${{ toJSON(steps.matrix.outputs.*) }}
       A: ${{ steps.matrix.outputs.A || '' }}
@@ -23,6 +28,7 @@ jobs:
       - id: matrix
         env:
           MATRIX_JSON: ${{ toJSON(matrix) }}
+        if: matrix.c
         run: |
           MATRIX_JSON=${MATRIX_JSON//$'\n'/}
           MATRIX_JSON=${MATRIX_JSON//$'"'/"'"}
@@ -36,7 +42,7 @@ jobs:
     steps:
       - run: |
           echo "${{ needs.setup.outputs.matrix }}"
-          echo "${{ needs.setup.outputs.* }}"
+          echo "${{ toJSON(needs.setup.outputs.*) }}"
 
   build:
     needs: [ setup ]
