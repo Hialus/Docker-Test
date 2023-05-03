@@ -44,6 +44,7 @@ jobs:
           MATRIX_JSON=${MATRIX_JSON//$'\n'/}
           MATRIX_JSON=${MATRIX_JSON//$'"{'/'{'}
           MATRIX_JSON=${MATRIX_JSON//$'}"'/'}'}
+          MATRIX_JSON=${MATRIX_JSON//$'\\"'/'"'}
           echo "$MATRIX_JSON"
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
