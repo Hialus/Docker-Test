@@ -1,0 +1,13 @@
+name: Deploy to Testserver
+
+on:
+  workflow_run:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJSON([{"name":"A","b":"1"},{"name":"B","b":"2"}])}}
+    steps:
+      - run: |
+          echo "${{ matrix.value }}"
