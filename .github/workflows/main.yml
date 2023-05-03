@@ -16,11 +16,11 @@ jobs:
           - name: "B"
             b: 2
     outputs:
-      matrix: ${{ steps.output.outputs.* }}
+      matrix: ${{ toJSON(steps.output.outputs.*) }}
     steps:
       - id: matrix
         run: |
-          echo "${{ matrix.name }}= ${{ toJSON(matrix) }}" >> $GITHUB_OUTPUT
+          echo "${{ matrix.name }}='${{ toJSON(matrix) }}'" >> $GITHUB_OUTPUT
 #         echo '::set-output name=value::[{"name":"A","b":"1"},{"name":"B","b":"2"}]'
           
   build:
