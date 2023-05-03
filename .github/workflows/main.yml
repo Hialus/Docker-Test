@@ -22,6 +22,7 @@ jobs:
         env:
           MATRIX_JSON: ${{ toJSON(matrix) }}
         run: |
+          MATRIX_JSON=${MATRIX_JSON//$'\n'/}
           echo '${{ matrix.name }}=${{ env.MATRIX_JSON }}' >> $GITHUB_OUTPUT
 #         echo '${{ matrix.name }}=\'${{ toJSON(matrix) }}\'' >> $GITHUB_OUTPUT
 #         echo '::set-output name=value::[{"name":"A","b":"1"},{"name":"B","b":"2"}]'
