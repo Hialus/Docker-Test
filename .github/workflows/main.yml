@@ -21,9 +21,9 @@ jobs:
             b: 3
             c: false
     outputs:
-      matrix: ${{ toJSON(steps.matrix.outputs.*) }}
       A: ${{ steps.matrix.outputs.A || '' }}
       B: ${{ steps.matrix.outputs.B || '' }}
+      C: ${{ steps.matrix.outputs.C || '' }}
     steps:
       - id: matrix
         env:
@@ -33,23 +33,26 @@ jobs:
           MATRIX_JSON=${MATRIX_JSON//$'\n'/}
           MATRIX_JSON=${MATRIX_JSON//$'"'/"'"}
           echo "${{ matrix.name }}=$MATRIX_JSON" >> $GITHUB_OUTPUT
-#         echo '${{ matrix.name }}=\'${{ toJSON(matrix) }}\'' >> $GITHUB_OUTPUT
-#         echo '::set-output name=value::[{"name":"A","b":"1"},{"name":"B","b":"2"}]'
           
   echo:
     needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "${{ needs.setup.outputs.matrix }}"
-          echo "${{ toJSON(needs.setup.outputs.*) }}"
+      - name: Modify
+        env:
+          MATRIX_JSON: ${{ toJSON(needs.setup.outputs.*) }}
+        run: |
+          echo "$MATRIX_JSON"
+          MATRIX_JSON=${MATRIX_JSON//$'"{'/'{'}
+          MATRIX_JSON=${MATRIX_JSON//$'}"'/'}'}
+          echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
   build:
-    needs: [ setup ]
+    needs: [ echo ]
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        include: ${{needs.setup.outputs.*}}
+        include: ${{needs.echo.outputs.matrix}}
     steps:
       - run: |
           echo "${{ matrix.name }} & ${{ matrix.b }}"
