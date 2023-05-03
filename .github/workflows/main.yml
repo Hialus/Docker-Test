@@ -11,27 +11,50 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: "A"
-            b: 1
-            c: true
-          - name: "B"
-            b: 2
-            c: true
-          - name: "C"
-            b: 3
-            c: false
+          - environment: artemis-test4.artemis.cit.tum.de
+            lock_label: artemis-test4
+            url: https://artemis-test4.artemis.cit.tum.de
+            user: deployment
+            hosts: artemis-test4.artemis.cit.tum.de
+            folder: /opt/artemis
+            host_keys: |
+              artemis-test4.artemis.cit.tum.de ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCwYFngAYWkI7yaf/6Ni81xCgWyh2gFlGPsUBq57iwROEQjfebTB8lWk2VfC3uCNXIEYB0IBQptPljRF2yQq+vUUeMerzXd5D/aeDmtS59f/z3W3ah3k3N7y5kFmBTGdvg53l+B34lQG6bEbB4McX8MhSUYdtAkp6Sc5EcxXiaDhcgGMCtXSMBJUrIGN+Is4AlWlqCGkL1KP+Y23rOaL3co+RppkcPDoKat8BZD2EbVBp9ZqqAVc+qIud/IMbTVZkhnaNoC0K33aoBLtauoTbYo/5kOlwFCDGM+NiNaXrOF5ANGJxX8WYoFXWVxxJFDVAm3x7ajZqydmkxWhPfUa9LIIEy2QbmeYvosfd8p/5STOQCHqE9dLHwjtin/vL1b0HmclIQUhrMVYMTeJNSCN9D2uRcU9U7Cz4qbX9s6/eCVjHfTkr+b0gvM1tm5OwZBaH1++aJj4JakACgwHZoRV08hmf6jGHVCoVStCOCe0TUT9enCMPs+Y+BFuoDWVlOLDi8=
+              artemis-test4.artemis.cit.tum.de ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHyKKZgX8bZ+k7N/B42LhBvJG2FcNhPL11q2L9FYDV/N2DAMHnBaxoruw+NdIaG0b/rfseUJKXPQiY6TMr0kOrk=
+              artemis-test4.artemis.cit.tum.de ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE9lVNwikkOcJb/7BdV200KcEtpisvhkOHMcKZeF3Tvb
+
+          - environment: artemis-test5.artemis.cit.tum.de
+            lock_label: artemis-test5
+            url: https://artemis-test5.artemis.cit.tum.de
+            user: deployment
+            hosts: artemis-test5.artemis.cit.tum.de
+            folder: /opt/artemis
+            host_keys: |
+              artemis-test5.artemis.cit.tum.de ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQD0NyNrw8dlJ99iGRSQ5IemSBpJyruNjFFFquiv8wsVRsBL6XPNySmZm0XWh8MjLxlL7DH3rUxXupaAnH6kQAAzt9gbWS4E+k21sfoKU0muf9rE1e7rUjnKgOm70b+6kpc7AS8HBAmzS2GuDzufPiyPYlUjozLhb2nAN685lT2v/Ofoe8tdWsR7AkB9pJE5P4NhAS/a4JujpyhO186F+SyT9k4X8FlfMi40qdBm1eIkg+eljVfbaIn0pKdoy/n8s0ODWu7vZpzNQxZb7qm5ROUjTqObSqsUA8oQv0JuWf4oudVLg3gxV1fEmEdAaWFt6W2mkiFaLeYTrhdtwD627WCyUPaSGe8yy8itEPsw2edfKZqb7s0+H6SlgvqR4rtKkbXs5gMG3Q2Ezj1C4SYrR/ME6oy6xt0zQEG7hiKIl2ArFZA6xRnhnqck8sTr+6oqRdNbKeErYroOYwKquNfuLHv1Fy2OpefMI+tjWSIFhDYDW2Y9d/ySPETyhHmZrn40Bk8=
+              artemis-test5.artemis.cit.tum.de ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBImSPJjIhJGsbUABhZfjM5vbc0UVC7JTDS1xwdIdJfAIEMo101EIS98C340VtiU4f6G2z59zpRB1Udptv1cxbPI=
+              artemis-test5.artemis.cit.tum.de ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHonMyIKiEHw7miwe5PJMDvWO/PwTpQpFYsvi2DUXYrO
+
+          - environment: artemis-test6.artemis.cit.tum.de
+            lock_label: artemis-test6
+            url: https://artemis-test6.artemis.cit.tum.de
+            user: deployment
+            hosts: artemis-test6.artemis.cit.tum.de
+            folder: /opt/artemis
+            host_keys: |
+              artemis-test6.artemis.cit.tum.de ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDKF/XYwHLiJ8JzYgcjxC9xRFrZqkLZz1sXa2PzJPTVzf+Ms58Emcor1/9Th+HgFtksEN2rsgPJackGBdigoDJn2n9ALzioWjIjdp4aH2Vl7wl91+ms2EWsAp1ZzywCFDYTQwqhmfztyS+SgKUrBGXJ+BB9rl115/0bt0wRCVhlI/QOWBp2renogzt/39BHEVNUp1dLeAReQmDjkiPZGyShkEVi1pODpIYoQ9KPcBlbT3/T5G3WaQDWZyt7J7vZa+nEI7rMRYcNF9RyqMs96dHmivputjg9ESNX9tH+3YonwCKdt2jCoV76VD31S3F7uK2pz5L7GdakM9n3CiT7K7msg7zFAPrxFoV3POpqWMc3NxEB7ZufQCL/VJ5mTZmj6jSUIRXsOdzZpgb6ZdqXd4cdWX56VY1YZwnXk9rxwxPDLyl3ugspvW9pmAJuk0/kltSq7j8w5toiclKgUte2CwrqOFdoj05m+1C1pUwCoeKxuV0ugHOS/M1fM64wikj9+cU=
+              artemis-test6.artemis.cit.tum.de ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI5x3Yh7ecWwh+oitXTMwRnjyVRwlikkIqvmpYb4TF6rgSxBAxfkiWHiEyTWS7eBtdhp/v0FmhJV9dsehZSxZYQ=
+              artemis-test6.artemis.cit.tum.de ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMZdVOmY8K39PId1WPGMZaQwJvtDbGqJTdJX26YtDXgI
     outputs:
-      A: ${{ steps.matrix.outputs.A || '' }}
-      B: ${{ steps.matrix.outputs.B || '' }}
-      C: ${{ steps.matrix.outputs.C || '' }}
+      TS4: ${{ steps.matrix.outputs.artemis-test4 || '' }}
+      TS5: ${{ steps.matrix.outputs.artemis-test5 || '' }}
+      TS6: ${{ steps.matrix.outputs.artemis-test6 || '' }}
     steps:
       - id: matrix
         env:
           MATRIX_JSON: ${{ toJSON(matrix) }}
-        if: matrix.c
+#       if: matrix.c
         run: |
           MATRIX_JSON=${MATRIX_JSON//$'\n'/}
-          echo "${{ matrix.name }}=$MATRIX_JSON" >> $GITHUB_OUTPUT
+          echo "${{ matrix.lock_label }}=$MATRIX_JSON" >> $GITHUB_OUTPUT
           
   process:
     needs: [ setup ]
@@ -65,4 +88,4 @@ jobs:
         include: ${{ fromJSON(needs.process.outputs.matrix) }}
     steps:
       - run: |
-          echo "${{ matrix.name }} & ${{ matrix.b }}"
+          echo "${{ matrix }}"
