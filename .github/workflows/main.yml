@@ -6,10 +6,19 @@ on:
       - main
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+    steps:
+      - id: matrix
+        run: |
+          echo '::set-output name=value::[{"name":"A","b":"1"},{"name":"B","b":"2"}]'
   build:
+    needs: [ setup ]
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJSON([{"name":"A","b":"1"},{"name":"B","b":"2"}])}}
+      matrix: ${{fromJSON(needs.setup.outputs.matrix)}}
     steps:
       - run: |
-          echo "${{ matrix.value }}"
+          echo "${{ matrix.name }} & ${{ matrix.b }}"
