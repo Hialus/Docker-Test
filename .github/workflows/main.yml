@@ -42,9 +42,10 @@ jobs:
         env:
           MATRIX_JSON: ${{ toJSON(needs.setup.outputs.*) }}
         run: |
-          echo "$MATRIX_JSON"
+          MATRIX_JSON=${MATRIX_JSON//$'\n'/}
           MATRIX_JSON=${MATRIX_JSON//$'"{'/'{'}
           MATRIX_JSON=${MATRIX_JSON//$'}"'/'}'}
+          echo "$MATRIX_JSON"
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
   build:
