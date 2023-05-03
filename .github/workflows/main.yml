@@ -55,14 +55,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "${{ needs.process.outputs.matrix }}"
+          echo '${{ needs.process.outputs.matrix }}'
 
   build:
     needs: [ process ]
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        include: ${{ needs.process.outputs.matrix }}
+        include: ${{ fromJSON(needs.process.outputs.matrix) }}
     steps:
       - run: |
           echo "${{ matrix.name }} & ${{ matrix.b }}"
