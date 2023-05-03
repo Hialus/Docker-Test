@@ -70,7 +70,6 @@ jobs:
           MATRIX_JSON=${MATRIX_JSON//$'"{'/'{'}
           MATRIX_JSON=${MATRIX_JSON//$'}"'/'}'}
           MATRIX_JSON=${MATRIX_JSON//$'\\"'/'"'}
-          MATRIX_JSON=${MATRIX_JSON//$'\\\\n'/'\\n'}
           echo "$MATRIX_JSON"
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
@@ -89,5 +88,5 @@ jobs:
         include: ${{ fromJSON(needs.process.outputs.matrix) }}
     steps:
       - run: |
-          echo "${{ matrix }}"
-          echo "${{ matrix.host_keys }}"
+          cat - <<< $(sed 's/\\n/\n/g' <<< "${{ matrix.host_keys }}")
+
