@@ -20,7 +20,7 @@ jobs:
     steps:
       - id: matrix
         run: |
-          echo "${{ matrix.name }}='${{ toJSON(matrix) }}'" >> $GITHUB_OUTPUT
+          echo '${{ matrix.name }}=\'${{ toJSON(matrix) }}\'' >> $GITHUB_OUTPUT
 #         echo '::set-output name=value::[{"name":"A","b":"1"},{"name":"B","b":"2"}]'
           
   build:
