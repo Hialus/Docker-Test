@@ -31,7 +31,6 @@ jobs:
         if: matrix.c
         run: |
           MATRIX_JSON=${MATRIX_JSON//$'\n'/}
-          MATRIX_JSON=${MATRIX_JSON//$'"'/"'"}
           echo "${{ matrix.name }}=$MATRIX_JSON" >> $GITHUB_OUTPUT
           
   echo:
