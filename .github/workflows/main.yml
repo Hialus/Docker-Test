@@ -16,7 +16,7 @@ jobs:
           - name: "B"
             b: 2
     outputs:
-      matrix: ${{ toJSON(steps.output.outputs.*) }}
+      matrix: ${{ toJSON(steps.matrix.outputs.*) }}
     steps:
       - id: matrix
         env:
