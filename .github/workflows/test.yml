@@ -1,0 +1,35 @@
+name: Build testing
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test1:
+    name: Test 1
+    runs-on: ubuntu-latest
+    concurrency:
+      group: test1-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Sleep
+        run: |
+          sleep 10m
+  test2:
+    name: Test 2
+    runs-on: ubuntu-latest
+    concurrency:
+      group: test2-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Sleep
+        run: |
+          sleep 20m
+  test3:
+    name: Test 3
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep
+        run: |
+          sleep 2m
