@@ -89,3 +89,4 @@ jobs:
     steps:
       - run: |
           echo "${{ matrix }}"
+          echo "${{ matrix.host_keys }}"
