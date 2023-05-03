@@ -33,7 +33,7 @@ jobs:
           MATRIX_JSON=${MATRIX_JSON//$'\n'/}
           echo "${{ matrix.name }}=$MATRIX_JSON" >> $GITHUB_OUTPUT
           
-  echo:
+  process:
     needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
@@ -48,12 +48,19 @@ jobs:
           echo "$MATRIX_JSON"
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
+  echo:
+    needs: [ process ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "${{ needs.process.outputs.matrix }}"
+
   build:
-    needs: [ echo ]
+    needs: [ process ]
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        include: ${{needs.echo.outputs.matrix}}
+        include: ${{ needs.process.outputs.matrix }}
     steps:
       - run: |
           echo "${{ matrix.name }} & ${{ matrix.b }}"
