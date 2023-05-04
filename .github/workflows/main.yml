@@ -20,7 +20,7 @@ jobs:
         uses: actions/github-script@v3
         with:
           script: |
-              cat - <<< ${{ toJSON(steps.check_build.outputs.data) }}
+              echo '${{ steps.check_build.outputs.data.total_count }}'
               core.setFailed('The build needs to run through first!')
 
   setup:
