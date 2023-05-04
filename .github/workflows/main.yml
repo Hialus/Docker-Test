@@ -16,11 +16,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check if latest push had successful build
-        if: steps.check_build.outputs.data.total_count == 0
+        if: fromJSON(steps.check_build.outputs.data).total_count == 0
         uses: actions/github-script@v3
         with:
           script: |
-              echo '${{ steps.check_build.outputs.data.total_count }}'
+              echo '${{ fromJSON(steps.check_build.outputs.data).total_count }}'
               core.setFailed('The build needs to run through first!')
 
   setup:
