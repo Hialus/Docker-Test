@@ -5,7 +5,23 @@ on:
     types: [labeled]
 
 jobs:
+  check-group:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get membership info
+        id: check_membership
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET orgs/ls1intum/teams/artemis-developers/memberships/${{ context.payload.sender.login }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo You need to be a part of the artemis-developers group in the ls1intum organization to deploy to test servers."
+        if: ${{ failure() }} && ${{ steps.check_membership.outputs.status }} == 404
+      - run: "echo An unknown error occured when retrieving the membership info of user ${{ context.payload.sender.login }}. The status code is: ${{ steps.check_membership.outputs.status }}"
+        if: ${{ failure() }} && ${{ steps.check_membership.outputs.status }} != 404
+
   check-build:
+    needs: [check-group]
     runs-on: ubuntu-latest
     steps:
       - name: Get latest successful build for branch
