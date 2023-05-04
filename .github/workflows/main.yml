@@ -8,23 +8,22 @@ jobs:
   check-group:
     runs-on: ubuntu-latest
     steps:
-      - name: Get user teams
-        id: get_user_teams
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /user/teams
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get team ID
+      id: get_team_id
+      run: echo "::set-output name=team_id::$(curl -H \"Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}\" -s https://api.github.com/orgs/ls1intum/teams | jq -r '.[] | select(.slug == \"artemis-developers\") | .id')"
 
-      - name: Check team membership
-        run: |
-          team_names=$(echo "${{ steps.get_user_teams.outputs.data }}" | jq -r '.[].slug')
-          if echo "${team_names}" | grep -q '^ls1intum/artemis-developers$'; then
-            echo "User is a member of artemis-developers team"
-          else
-            echo "User is not a member of artemis-developers team"
-            core.setFailed('User is not a member of artemis-developers team')
-          fi
+    - name: Check team membership
+      run: |
+        user=$(echo "${{ github.event.sender.login }}")
+        team_id="${{ steps.get_team_id.outputs.team_id }}"
+        membership=$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s https://api.github.com/teams/${team_id}/memberships/${user} | jq -r '.state')
+
+        if [[ "${membership}" == "active" ]]; then
+          echo "User is a member of artemis-developers team"
+        else
+          echo "User is not a member of artemis-developers team"
+          exit 1
+        fi
       - name: Get membership info
         id: check_membership
         uses: octokit/request-action@v2.x
