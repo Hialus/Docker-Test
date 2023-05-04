@@ -10,7 +10,8 @@ jobs:
     steps:
     - name: Get team ID
       id: get_team_id
-      run: echo "::set-output name=team_id::$(curl -H \"Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}\" -s https://api.github.com/orgs/ls1intum/teams | jq -r '.[] | select(.slug == \"artemis-developers\") | .id')"
+      run: |
+        echo "::set-output name=team_id::$(curl -H \"Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}\" -s https://api.github.com/orgs/ls1intum/teams | jq -r '.[] | select(.slug == \"artemis-developers\") | .id')"
 
     - name: Check team membership
       run: |
