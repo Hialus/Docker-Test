@@ -17,7 +17,7 @@ jobs:
         id: check_build
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/:owner/:repo/actions/workflows/build2.yml/runs?event=push&status=success&branch=${{ steps.pr_info.outputs.base_ref }}&per_page=1
+          route: GET /repos/Hialus/Docker-Test/actions/workflows/build2.yml/runs?event=push&status=success&branch=${{ steps.pr_info.outputs.base_ref }}&per_page=1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check if latest push had successful build
