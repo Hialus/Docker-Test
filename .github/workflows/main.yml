@@ -8,6 +8,23 @@ jobs:
   check-group:
     runs-on: ubuntu-latest
     steps:
+      - name: Get user teams
+        id: get_user_teams
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /user/teams
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check team membership
+        run: |
+          team_names=$(echo "${{ steps.get_user_teams.outputs.data }}" | jq -r '.[].slug')
+          if echo "${team_names}" | grep -q '^ls1intum/artemis-developers$'; then
+            echo "User is a member of artemis-developers team"
+          else
+            echo "User is not a member of artemis-developers team"
+            core.setFailed('User is not a member of artemis-developers team')
+          fi
       - name: Get membership info
         id: check_membership
         uses: octokit/request-action@v2.x
