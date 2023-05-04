@@ -11,6 +11,7 @@ jobs:
       - name: Get pull request information
         id: pr_info
         run: |
+          echo '${{ toJSON(github.event.pull_request) }}'
           echo "::set-output name=base_ref::${{ github.event.pull_request.base.ref }}"
           echo "::set-output name=sha::${{ github.event.pull_request.head.sha }}"
       - name: Get latest successful build for branch
@@ -20,6 +21,10 @@ jobs:
           route: GET /repos/Hialus/Docker-Test/actions/workflows/build2.yml/runs?event=push&status=success&branch=${{ steps.pr_info.outputs.base_ref }}&per_page=1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: asdasd
+        id: asdasd
+        run: |
+          echo '${{ toJSON(steps.check_build.outputs) }}'
       - name: Check if latest push had successful build
         if: steps.check_build.outputs.data.total_count == 0 || steps.check_build.outputs.data.workflow_runs[0].head_sha != steps.pr_info.outputs.sha
         uses: actions/github-script@v3
