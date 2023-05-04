@@ -12,7 +12,7 @@ jobs:
         id: check_membership
         uses: octokit/request-action@v2.x
         with:
-          route: GET orgs/ls1intum/teams/artemis-developers/memberships/${{ context.payload.sender.login }}
+          route: GET orgs/ls1intum/teams/artemis-developers/memberships/${{ github.actor }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo You need to be a part of the artemis-developers group in the ls1intum organization to deploy to test servers."
