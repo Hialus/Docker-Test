@@ -24,7 +24,6 @@ jobs:
             console.log(response)
             const labels = response.data
             console.log(labels)
-            env.PR_LABELS = labels.map(label => label.name).join(',')
             return labels.map(label => label.name).join(',')
       - run: |
           echo '${{ steps.get_labels.outputs.result }}'
