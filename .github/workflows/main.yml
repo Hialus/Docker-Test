@@ -5,40 +5,7 @@ on:
     types: [labeled]
 
 jobs:
-  check-group:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get team ID
-        id: get_team_id
-        run: |
-          echo "::set-output name=team_id::$(curl -H \"Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}\" -s https://api.github.com/orgs/ls1intum/teams | jq -r '.[] | select(.slug == \"artemis-developers\") | .id')"
-
-      - name: Check team membership
-        run: |
-          user=$(echo "${{ github.event.sender.login }}")
-          team_id="${{ steps.get_team_id.outputs.team_id }}"
-          membership=$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s https://api.github.com/teams/${team_id}/memberships/${user} | jq -r '.state')
-
-          if [[ "${membership}" == "active" ]]; then
-            echo "User is a member of artemis-developers team"
-          else
-            echo "User is not a member of artemis-developers team"
-            exit 1
-          fi
-      - name: Get membership info
-        id: check_membership
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /orgs/ls1intum/teams/artemis-developers/memberships/${{ github.actor }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo You need to be a part of the artemis-developers group in the ls1intum organization to deploy to test servers."
-        if: ${{ failure() }} && ${{ steps.check_membership.outputs.status }} == 404
-      - run: "echo An unknown error occured when retrieving the membership info of user ${{ github.actor }}. The status code is: ${{ steps.check_membership.outputs.status }}"
-        if: ${{ failure() }} && ${{ steps.check_membership.outputs.status }} != 404
-
   check-build:
-    needs: [check-group]
     runs-on: ubuntu-latest
     steps:
       - name: Get latest successful build for branch
@@ -48,13 +15,20 @@ jobs:
           route: GET /repos/Hialus/Docker-Test/actions/workflows/build2.yml/runs?event=pull_request&status=success&head_sha=${{ github.event.pull_request.head.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Check if latest push had successful build
         if: fromJSON(steps.check_build.outputs.data).total_count == 0
-        uses: actions/github-script@v3
+        uses: actions/github-script@v5
         with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-              echo '${{ fromJSON(steps.check_build.outputs.data).total_count }}'
-              core.setFailed('The build needs to run through first!')
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## ❌ Unable to deploy to test servers ❌\nThe docker build needs to run through before deploying.'
+            }) 
+            core.setFailed('The build needs to run through first!')
 
   setup:
     needs: [check-build]
