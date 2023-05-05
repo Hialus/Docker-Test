@@ -24,9 +24,10 @@ jobs:
             console.log(response)
             const labels = response.data
             console.log(labels)
-            return labels.map(label => label.name).join(',')
+            return labels.map(label => label.name)
       - run: |
           echo '${{ steps.get_labels.outputs.result }}'
+          echo '${{ contains(join(steps.get_labels.outputs.result, ','), 'documen') }}'
 
 
   check-build:
